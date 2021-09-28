@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>World Time</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <p id="local">Loading...</p>
+        <div id="output"></div>
+
+        
+        <script> 
+            var timer = setInterval(displayWorldTime, 1000)
+            var cities = [ 
+            {name: "Buenos Aires", utcOffset: 3, flag: "Argentina.png"},
+            {name: "Yerevan", utcOffset: 4, flag: "Armenia.png"},
+            {name: "Canberra", utcOffset: 1, flag: "Australia.png"},
+            {name: "Vienna", utcOffset: 1, flag: "Austria.png"},
+            {name: "Baku", utcOffset: 4, flag: "Azerbaijan.png"},
+            {name: "Nassau", utcOffset: -4, flag: "Bahamas.png"},
+            {name: "Manama", utcOffset: 3, flag: "Bahrain.png"},
+            {name: "Dhaka", utcOffset: 6, flag: "Bangladesh.png"},
+            {name: "Bridgetown", utcOffset: -4, flag: "Barbados.png"},
+            {name: "Minsk", utcOffset: 3, flag: "Belarus.png"},
+            {name: "Brussels", utcOffset: 2, flag: "Belgium.png"},
+            {name: "Belmopan", utcOffset: -6, flag: "Belize.png"},
+            {name: "Porto-Novo", utcOffset: 1, flag: "Benin.png"},
+            {name: "Thimphu", utcOffset: 6, flag: "Bhutan.png"},
+            {name: "Sucre", utcOffset: -4, flag: "Bolivia.png"},
+            {name: "Sarajevo", utcOffset: 1, flag: "Bosnia-and-Herzegovina.png"},
+            {name: "Gaborone", utcOffset: 2, flag: "Botswana.png"},
+            {name: "Brasilia", utcOffset: -3, flag: "Brazil.png"},
+            {name: "Bandar Seri Begawan", utcOffset: 8, flag: "Brunei.png"},
+            {name: "Sofia", utcOffset: 2, flag: "Bulgaria.png"},
+            {name: "Ouagadougou", utcOffset: 1, flag: "Burkina-Faso.png"},
+            {name: "Bujumbura", utcOffset: 2, flag: "Burundi.png"},
+            {name: "Phnom Penh", utcOffset: 7, flag: "Cambodia.png"},
+            {name: "Yaounde", utcOffset: 1, flag: "Cameroon.png"},
+            {name: "Ottawa", utcOffset: -4, flag: "Canada.png"},
+            {name: "Praia", utcOffset: 2, flag: "Cape-Verde.png"},
+            {name: "Bangui", utcOffset: 1, flag: "Central-African-Republic.png"},
+            {name: "N'Djamena", utcOffset: 1, flag: "Chad.png"},
+            {name: "Santiago", utcOffset: -3, flag: "Chile.png"},
+            {name: "Bogota", utcOffset: -5, flag: "Colombia.png"},
+            {name: "Moroni", utcOffset: 3, flag: "Comoros.png"},
+            {name: "Kinshasa", utcOffset: 1, flag: "Congo-(Democratic).png"},
+            {name: "Brazzaville", utcOffset: 1, flag: "Congo-(Republic).png"},
+            {name: "San Jose", utcOffset: -8, flag: "Costa-Rica.png"},
+            {name: "Zagreb", utcOffset: 3, flag: "Croatia.png"},
+            {name: "Havana", utcOffset: -4, flag: "Cuba.png"},
+            {name: "Nicosia", utcOffset: 3, flag: "Cyprus.png"},
+            {name: "Prague", utcOffset: 2, flag: "Czech-Republic.png"},
+            {name: "Copenhagen", utcOffset: 1, flag: "Denmark.png"},
+            {name: "Djibouti", utcOffset: 3, flag: "Djibouti.png"},
+            {name: "Roseau", utcOffset: -4, flag: "Dominica.png"},
+            {name: "Santo Domingo", utcOffset: -4, flag: "Dominican-Republic.png"},
+            {name: "Dili", utcOffset: 9, flag: "East-Timor.png"},
+            {name: "Quito", utcOffset: -5, flag: "Ecuador.png"},
+            {name: "Cairo", utcOffset: 1, flag: "Egypt.png"},
+            {name: "San Salvador", utcOffset: -4, flag: "El-Salvador.png"},
+            {name: "Malabo", utcOffset: 1, flag: "Equatorial-Guinea.png"},
+            {name: "Asmara", utcOffset: 3, flag: "Eritrea.png"},
+            {name: "Tallinn", utcOffset: 3, flag: "Estonia.png"},
+            {name: "Addis Ababa", utcOffset: 3, flag: "Ethiopia.png"},
+            {name: "Suva", utcOffset: 12, flag: "Fiji.png"},
+            {name: "Helsinki", utcOffset: 3, flag: "Finland.png"},
+            {name: "Paris", utcOffset: 2, flag: "France.png"},
+            {name: "Libreville", utcOffset: 1, flag: "Gabon.png"},
+            {name: "Banjul", utcOffset: 0, flag: "Gambia.png"},
+            {name: "Tbilisi", utcOffset: 4, flag: "Georgia.png"},
+            {name: "Berlin", utcOffset: 2, flag: "Germany.png"},
+            {name: "Accra", utcOffset: 0, flag: "Ghana.png"},
+            {name: "Athens", utcOffset: 3, flag: "Grecee.png"},
+            {name: "St.George's", utcOffset: -6, flag: "Grenada.png"},
+            {name: "Guatemala City", utcOffset: -6, flag: "Guatemala.png"},
+            {name: "Bissau", utcOffset: 1, flag: "Guinea-Bissau.png"},
+            {name: "Conakry", utcOffset: 0, flag: "Guinea.png"},
+            {name: "Georgetown", utcOffset: -4, flag: "Guyana.png"},
+            {name: "Port-aui-Prince", utcOffset: -4, flag: "Haiti.png"},
+            {name: "Tegucigalpa", utcOffset: -6, flag: "Honduras.png"},
+            {name: "Budapest", utcOffset: 2, flag: "Hungary.png"},
+            {name: "Reykjavik", utcOffset: 0, flag: "Iceland.png"},
+            {name: "New Delhi", utcOffset: 5, flag: "India.png"},
+            {name: "Jakarta", utcOffset: 7, flag: "Indonesia.png"},
+            {name: "Tehran", utcOffset: 3, flag: "Iran.png"},
+            {name: "Dublin", utcOffset: 1, flag: "Ireland.png"},
+            {name: "Jerusalem", utcOffset: 3, flag: "Israel.png"},
+            {name: "Rome", utcOffset: 2, flag: "Italy.png"},
+            {name: "Kingston", utcOffset: -5, flag: "Jamaica.png"},
+            {name: "Amman", utcOffset: 3, flag: "Jordan.png"},
+            {name: "Nur-Sultan", utcOffset: 6, flag: "Kazakhstan.png"},
+            {name: "Nairobi", utcOffset: 3, flag: "Kenya.png"},
+            {name: "South Tawara", utcOffset: 12, flag: "Kiribati.png"},
+            {name: "North Korea", utcOffset: 9, flag: "Korea,-North.png"},
+            {name: "Seoul", utcOffset: 9, flag: "Korea,-South.png"},
+            {name: "Pristina", utcOffset: 2, flag: "Kosovo.png"},
+            {name: "Kuwait City", utcOffset: 3, flag: "Kuwait.png"},
+            {name: "Bishkek", utcOffset: 6, flag: "Kyrgyzstan.png"},
+            {name: "Vientiane", utcOffset: 7, flag: "Laos.png"},
+            {name: "Riga", utcOffset: 3, flag: "Latvia.png"},
+            {name: "Beirut", utcOffset: 3, flag: "Lebanon.png"},
+            {name: "Maseru", utcOffset: 2, flag: "Lesotho.png"},
+            {name: "Monrovia", utcOffset: 0, flag: "Liberia.png"},
+            {name: "Tripoli", utcOffset: 0, flag: "Libya.png"},
+            {name: "Vaduz", utcOffset: 2, flag: "Liechtenstein.png"},
+            {name: "Vilnius", utcOffset: 3, flag: "Lithuania.png"},
+            {name: "Luxembourg", utcOffset: 2, flag: "Luxembourg.png"},
+            {name: "Skopje", utcOffset: 2, flag: "Macedonia.png"},
+            {name: "Antananarivo", utcOffset: 3, flag: "Madagascar.png"},
+            {name: "Lilongwe", utcOffset: 2, flag: "Malawi.png"},
+            {name: "Kuala Lumpur", utcOffset: 8, flag: "Malaysia.png"},
+            {name: "Male", utcOffset: 5, flag: "Maldives.png"},
+            {name: "Bamako", utcOffset: 0, flag: "Mali.png"},
+            {name: "Majuro", utcOffset: 12, flag: "Marshall-Islands.png"},
+            {name: "Nouakchott", utcOffset: 0, flag: "Mauritania.png"},
+            {name: "Port louis", utcOffset: 4, flag: "Mauritius.png"},
+            {name: "Mexico City", utcOffset: -6, flag: "Mexico.png"},
+            {name: "Chisinau", utcOffset: 3, flag: "Moldova.png"},
+            {name: "Monaco", utcOffset: 2, flag: "Monaco.png"},
+            {name: "Ulaanbaatar", utcOffset: 8, flag: "Mongolia.png"},
+            {name: "Podgorica", utcOffset: 2, flag: "Montenegro.png"},
+            {name: "Rabat", utcOffset: 1, flag: "Morocco.png"},
+            {name: "Maputo", utcOffset: 2, flag: "Mozambique.png"},
+            {name: "Naypyidaw", utcOffset: 6, flag: "Myanmar.png"},
+            {name: "Windhoek", utcOffset: 2, flag: "Namibia.png"},
+            {name: "Yaren Distric", utcOffset: 12, flag: "Nauru.png"},
+            {name: "Kathmandu", utcOffset: 5, flag: "Nepal.png"},
+            {name: "Amsterdam", utcOffset: 2, flag: "Netherlands.png"},
+            {name: "Wellington", utcOffset: 12, flag: "New-Zealand.png"},
+            {name: "Managau", utcOffset: -6, flag: "Nicaragua.png"},
+            {name: "Niamey", utcOffset: 1, flag: "Niger.png"},
+            {name: "Abuja", utcOffset: 1, flag: "Nigeria.png"},
+            {name: "Oslo", utcOffset: 2, flag: "Norway.png"},
+            {name: "Muscat", utcOffset: 2, flag: "Oman.png"},
+            {name: "Islamabad", utcOffset: 5, flag: "Pakistan.png"},
+            {name: "Ngerulmud", utcOffset: 9, flag: "Palau.png"},
+            {name: "Panama City", utcOffset: -5, flag: "Panama.png"},
+            {name: "Port Moresby", utcOffset: 10, flag: "Papua-New-Guinea.png"},
+            {name: "Asuncion", utcOffset: -4, flag: "Paraguay.png"},
+            {name: "Lima", utcOffset: -5, flag: "Peru.png"},
+            {name: "Manila", utcOffset: 8, flag: "Philippines.png"},
+            {name: "Warsaw", utcOffset: 2, flag: "Poland.png"},
+            {name: "Lisbon", utcOffset: 1, flag: "Portugal.png"},
+            {name: "Doha", utcOffset: 3, flag: "Qatar.png"},
+            {name: "Bucharest", utcOffset: 3, flag: "Romania.png"},
+            {name: "Kigali", utcOffset: 2, flag: "Rwanda.png"},
+            {name: "Bassetetrre", utcOffset: 4, flag: "Saint-Kitts-and-Nevis.png"},
+            {name: "Castries", utcOffset: 4, flag: "Saint-Lucia.png"},
+            {name: "Kingstown", utcOffset: -4, flag: "Saint-kitts-and-Nevis.png"},
+            {name: "Apia", utcOffset: 13, flag: "Samoa.png"},
+            {name: "San Marino", utcOffset: 2, flag: "San-Marino.png"},
+            {name: "Sao Tome", utcOffset: 0, flag: "Sao-Tome-and-Principe.png"},
+            {name: "Riyadh", utcOffset: 3, flag: "Saudi-Arabia.png"},
+            {name: "Dakar", utcOffset: 0, flag: "Senegal.png"},
+            {name: "Belgrade", utcOffset: 2, flag: "Serbia.png"},
+            {name: "Victoria", utcOffset: 10, flag: "Seychelles.png"},
+            {name: "Singapore", utcOffset: 8, flag: "Singapore.png"},
+            {name: "Bratislava", utcOffset: 2, flag: "Slovakia.png"},
+            {name: "Ljubijana", utcOffset: 2, flag: "Slovenia.png"},
+            {name: "Honiara", utcOffset: 11, flag: "Solomon-Islands.png"},
+            {name: "Mogadishu", utcOffset: 3, flag: "Somalia.png"},
+            {name: "Pretoria", utcOffset: 2, flag: "South-Africa.png"},
+            {name: "Juba", utcOffset: 3, flag: "South-Sudan.png"},
+            {name: "Madrid", utcOffset: 2, flag: "Spain.png"},
+            {name: "Sri Jayawardenepura Kotte", utcOffset: 5, flag: "Sri-Lanka.png"},
+            {name: "Khartoum", utcOffset: 2, flag: "Sudan.png"},
+            {name: "Paramaribo", utcOffset: -3, flag: "Suriname.png"},
+            {name: "Mbabane", utcOffset: 2, flag: "Swaziland.png"},
+            {name: "Stockholm", utcOffset: 2, flag: "Sweden.png"},
+            {name: "Bern", utcOffset: 2, flag: "Switzerland.png"},
+            {name: "Damascus", utcOffset: 3, flag: "Syria.png"},
+            {name: "Taipei", utcOffset: 8, flag: "Taiwan.png"},
+            {name: "Dushanbe", utcOffset: 5, flag: "Tajikistan.png"},
+            {name: "Dodoma", utcOffset: 3, flag: "Tanzania.png"},
+            {name: "Bangkok", utcOffset: 7, flag: "Thailand.png"},
+            {name: "Lome", utcOffset: 0, flag: "Togo.png"},
+            {name: "Nuku'alofa", utcOffset: 13, flag: "Tonga.png"},
+            {name: "Port of Spain", utcOffset: -4, flag: "Trinidad-and-Tobago.png"},
+            {name: "Funafuti", utcOffset: 12, flag: "Tuvalu.png"},
+            {name: "Kampala", utcOffset: 3, flag: "Uganda.png"},
+            {name: "Kyiv", utcOffset: 3, flag: "Ukraine.png"},
+            {name: "Abu Dhabi", utcOffset: 4, flag: "United-Arab-Emirates.png"},
+            {name: "London", utcOffset: 1, flag: "United-Kingdom.png"},
+            {name: "Montevideo", utcOffset: 3, flag: "Uruguay.png"},
+            {name: "Tashkent", utcOffset: 5, flag: "Uzbekistan.png"},
+            {name: "Port Vila", utcOffset: 11, flag: "Vanuatu.png"},
+            {name: "Rome", utcOffset: 2, flag: "Vatican-City.png"},
+            {name: "Caracas", utcOffset: 3, flag: "Venezuela.png"},
+            {name: "Hanoi", utcOffset: 7, flag: "Vietnam.png"},
+            {name: "Sanaa", utcOffset: 3, flag: "Yemen.png"},
+            {name: "Harare", utcOffset: 2, flag: "Zimbabwe.png"},
+            {name: "Istanbul", utcOffset: 3, flag: "Turkey.png"},
+            {name: "New York City", utcOffset: -5, flag: "United-States-of-America.png"},
+            {name: "Tokyo", utcOffset: 9, flag: "Japan.png"},
+            {name: "Moscow", utcOffset: 3, flag: "Russia.png"},
+            {name: "Rio De Janeiro", utcOffset: -3, flag: "Brazil.png"},
+            {name: "Sydney", utcOffset: 11, flag: "Australia.png"},
+            {name: "Vancouver", utcOffset: -8, flag: "Canada.png"},
+            {name: "Beijing", utcOffset: 8, flag: "China.png"},
+            ];
+
+            cities.sort(compare);
+
+              function compare(a, b){
+                  var cityA = a.name;
+                  var cityB = b.name;
+
+                  var comparison = 0;
+                  if(cityA > cityB){
+                      camparison = 1;
+                  } else if(cityA < cityB){
+                      comparison = -1;
+                  }
+                  return comparison;
+             }
+
+                function getUtcTime(){
+                    var dt = new Date();
+                    var utcOffset = dt.getTimezoneOffset() * 60000;
+                    var utcTime = new Date(dt.getTime() + utcOffset);
+                    return utcTime.getTime();
+                }
+
+                function getCurrentTime(utcOffset){
+                    var mil = 1000 * 60 * 60;
+                    var time = new Date(getUtcTime() + utcOffset * mil);
+                    return time.toLocaleString();
+                }
+
+                function displayWorldTime(){
+                    var dt = new Date();
+                    document.getElementById("local").innerHTML ="local time : " + dt.toLocaleString();
+
+                    var output = `<table id="cities">`;
+                    output += `
+                            <tr>
+                                <th class="Col1"></th>
+                                <th class="col2"></th>
+                                <th></th>
+                                </tr>
+                            `;
+
+                    for(a = 0; a < cities.length; a++){
+                        output += `
+                            <tr>
+                               <td><img src="img/${cities[a].flag}"/></td>
+                               <td>${cities[a].name}</td>
+                               <td>${getCurrentTime(cities[a].utcOffset)}</td> 
+                            </tr>
+                        `;
+                    }
+
+                    output += `</table>`;
+                    document.getElementById("output").innerHTML = output;
+
+                }
+                
+            </script>
+        </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
